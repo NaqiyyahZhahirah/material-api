@@ -1,6 +1,6 @@
-# 🏗️ API Manajemen Inventori Material Bangunan
+# API Manajemen Inventori Material Bangunan
 
-[![Laravel CI/CD](https://github.com/USERNAME_KAMU/NAMA_REPO/actions/workflows/laravel.yml/badge.svg)](https://github.com/USERNAME_KAMU/NAMA_REPO/actions)
+[![Laravel CI/CD](https://github.com/NaqiyyahZhahirah/material-api.git/actions/workflows/laravel.yml/badge.svg)](https://github.com/NaqiyyahZhahirah/material-api.git/actions)
 
 ## 1. Deskripsi Project
 Project ini adalah **API Manajemen Inventori Material** yang dibangun menggunakan framework Laravel. API ini memungkinkan pengguna untuk mengelola data stok material (Semen, Pasir, Baja, dll) secara digital melalui operasi CRUD (Create, Read, Update, Delete). Seluruh infrastruktur dijalankan di atas Docker untuk memastikan lingkungan pengembangan yang konsisten.
