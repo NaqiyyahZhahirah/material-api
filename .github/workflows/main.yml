@@ -9,6 +9,11 @@ on:
 jobs:
   tests-and-security:
     runs-on: ubuntu-latest
+    env:
+      APP_KEY: base64:t6YvO+K/fF9O9k8XW+L/vQ5M1N2B3C4D5E6F7G8H9I0=
+      DB_CONNECTION: sqlite
+      DB_DATABASE: ":memory:"
+
     steps:
       - uses: actions/checkout@v4
 
@@ -16,7 +21,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.4'
-          extensions: mbstring, dom, curl, libxml
+          extensions: mbstring, dom, curl, libxml, sqlite3
 
       - name: Install Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
