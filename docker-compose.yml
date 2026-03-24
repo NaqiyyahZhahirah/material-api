@@ -1,0 +1,36 @@
+services:
+  app:
+    build: .
+    container_name: material-app
+    volumes:
+      - .:/var/www
+    networks:
+      - material-network
+
+  db:
+    image: mysql:8.0
+    container_name: material-db
+    environment:
+      MYSQL_DATABASE: material_db
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "33061:3306"
+    networks:
+      - material-network
+
+  nginx:
+    image: nginx:alpine
+    container_name: material-nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+    networks:
+      - material-network
+
+networks:
+  material-network:
+    driver: bridge
