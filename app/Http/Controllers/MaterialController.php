@@ -34,7 +34,7 @@ class MaterialController extends Controller
         ], 201);
     }
 
-    // READ SINGLE
+    // READ (SINGLE)
     public function show(Material $material) {
         return response()->json([
             'success' => true,
