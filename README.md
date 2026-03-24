@@ -1,58 +1,132 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# API Manajemen Inventori Material Bangunan
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+[![Laravel CI/CD](https://github.com/NaqiyyahZhahirah/material-api.git/actions/workflows/laravel.yml/badge.svg)](https://github.com/NaqiyyahZhahirah/material-api.git/actions)
 
-## About Laravel
+## 1. Deskripsi Project
+Project ini adalah **API Manajemen Inventori Material** yang dibangun menggunakan framework Laravel. API ini memungkinkan pengguna untuk mengelola data stok material (Semen, Pasir, Baja, dll) secara digital melalui operasi CRUD (Create, Read, Update, Delete). Seluruh infrastruktur dijalankan di atas Docker untuk memastikan lingkungan pengembangan yang konsisten.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 2. Dokumentasi API
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Endpoint List
+| Method | Endpoint | Fungsi |
+| :--- | :--- | :--- |
+| **GET** | `/api/materials` | Mengambil semua daftar material |
+| **POST** | `/api/materials` | Menambah material baru ke database |
+| **GET** | `/api/materials/{id}` | Melihat detail satu material spesifik |
+| **PUT** | `/api/materials/{id}` | Memperbarui data material (stok/harga) |
+| **DELETE** | `/api/materials/{id}` | Menghapus data material dari sistem |
 
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
-
-```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+### Format Response
+**Success (201 Created / 200 OK):**
+```json
+{
+    "success":true,
+    "message":"Material Baru Ditambahkan",
+    "data": 
+    {
+        "nama_material":"Cat Tembok Anti Jamir",
+        "kategori":"Cat",
+        "harga":50000,
+        "stok":100,
+        "updated_at":"2026-03-24T13:17:20.000000Z",
+        "created_at":"2026-03-24T13:17:20.000000Z",
+        "id":3
+    }
+}
+```
+**Error (422 Unprocessable Entity - Validasi Gagal):**
+```json
+{
+    "message": "The nama material field is required. (and 3 more errors)",
+    "errors": {
+        "nama_material": [
+            "The nama material field is required."
+        ],
+        "kategori": [
+            "The kategori field is required."
+        ],
+        "harga": [
+            "The harga field is required."
+        ],
+        "stok": [
+            "The stok field is required."
+        ]
+    }
+}
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+## 3. Panduan Instalasi (Docker)
+Langkah-langkah Menjalankan Aplikasi:
+Clone Repository:
 
-## Contributing
+Bash
+git clone [https://github.com/NaqiyyahZhahirah/material-api]
+cd material-api
+Build & Run Container:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Bash
+docker-compose up -d --build
+Konfigurasi Database & Key:
 
-## Code of Conduct
+Bash
+docker-compose exec app php artisan key:generate
+docker-compose exec app php artisan migrate
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Informasi Port:
+- Host Port: 8080 (Akses API via http://localhost:8080)
+- Container Port: 80 (Nginx/App)
+- Database Port: 3306 (MySQL)
 
-## Security Vulnerabilities
+## 4. Alur Kerja Git
+Branching Strategy:
+Project ini menggunakan tiga jenis branch utama untuk manajemen kode yang rapi:
+- main: Branch stabil untuk pengumpulan tugas akhir.
+- develop: Branch integrasi fitur sebelum digabungkan ke branch utama.
+- feature/material-crud: Branch khusus untuk proses pengembangan fitur CRUD.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Conventional Commits:
+Riwayat commit mengikuti standar industri untuk memudahkan pelacakan perubahan:
+- feat: Digunakan saat penambahan fitur baru (Material CRUD).
+- fix: Digunakan saat perbaikan bug (Update method issue).
+- docs: Digunakan untuk perubahan pada dokumentasi (README).
+- chore: Digunakan untuk pembaruan konfigurasi (Docker/GitHub Actions).
 
-## License
+## 5. Status Automasi (GitHub Actions)
+Aplikasi ini dilengkapi dengan CI/CD Workflow yang berjalan otomatis setiap kali ada push atau pull request:
+- CI (Continuous Integration): Melakukan instalasi dependencies, pengecekan sintaks PHP, dan menjalankan Automated Testing menggunakan SQLite sebagai database testing untuk memastikan fungsionalitas API tetap aman.
+- Status Badge: Status automasi dapat dilihat pada bagian atas. Jika sudah ada centang berwarna hijau (passing), berarti aplikasi lulus uji coba otomatis.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+## 📸 Bukti Testing (Postman)
+
+Berikut adalah bukti dokumentasi hasil pengujian API menggunakan Postman:
+
+### 1. Menambah Data (POST)
+**Endpoint:** `POST /api/materials`
+![Testing POST](assets/screenshots/Postman_POST.png)
+*Berhasil menambahkan material baru ke database.*
+
+### 2. Mengubah Data (PUT)
+**Endpoint:** `PUT /api/materials/{id}`
+![Testing PUT](assets/screenshots/Postman_PUT.png)
+*Berhasil memperbarui data material berdasarkan ID.*
+
+### 3. Mengambil Semua Data (GET)
+**Endpoint:** `GET /api/materials`
+![Testing GET](assets/screenshots/Postman_GET.png)
+*Berhasil menampilkan seluruh daftar material yang tersedia.*
+
+### 4. Mengambil Detail Data (GET BY ID)
+**Endpoint:** `GET /api/materials/{id}`
+![Testing GET BY ID](assets/screenshots/Postman_GET_BY_ID.png)
+*Berhasil menampilkan informasi detail satu material.*
+
+### 5. Menghapus Data (DELETE)
+**Endpoint:** `DELETE /api/materials/{id}`
+![Testing DELETE](assets/screenshots/Postman_DELETE.png)
+*Berhasil menghapus data material dari sistem.*
+
+---
