@@ -45,6 +45,7 @@ class MaterialController extends Controller
     // UPDATE
     public function update(Request $request, Material $material) {
         $material->update($request->all());
+        $material->refresh();
         return response()->json([
             'success' => true,
             'message' => 'Material Berhasil Diperbarui',
