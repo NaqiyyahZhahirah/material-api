@@ -3,17 +3,10 @@ name: Laravel CI-CS
 on:
   push:
     branches: [ "main", "develop", "feature/*" ]
-  pull_request:
-    branches: [ "main", "develop" ]
 
 jobs:
   tests-and-security:
     runs-on: ubuntu-latest
-    env:
-      APP_KEY: base64:t6YvO+K/fF9O9k8XW+L/vQ5M1N2B3C4D5E6F7G8H9I0=
-      DB_CONNECTION: sqlite
-      DB_DATABASE: ":memory:"
-
     steps:
       - uses: actions/checkout@v4
 
@@ -26,13 +19,12 @@ jobs:
       - name: Install Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
-      - name: Prepare Laravel Environment
+      - name: Run Tests and Security Scan
+        env:
+          APP_KEY: base64:t6YvO+K/fF9O9k8XW+L/vQ5M1N2B3C4D5E6F7G8H9I0=
+          DB_CONNECTION: sqlite
+          DB_DATABASE: ":memory:"
         run: |
-          cp .env.example .env
-          php artisan key:generate
-
-      - name: Security Scan (CS)
-        run: composer audit
-
-      - name: Run Unit Tests (CI)
-        run: php artisan test
+          php artisan config:clear
+          composer audit
+          php artisan test
